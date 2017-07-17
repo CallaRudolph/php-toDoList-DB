@@ -162,6 +162,50 @@
             //Assert
             $this->assertEquals($test_category, $result);
         }
+
+        function testAddTask()
+        {
+            //Arrange
+            $name = "Work stuff";
+            $test_category = new Category($name);
+            $test_category->save();
+
+            $description = "File reports";
+            $date = "Christmas";
+            $test_task = new Task($description, $date);
+            $test_task->save();
+
+            //Act
+            $test_category->addTask($test_task);
+
+            //Assert
+            $this->assertEquals($test_category->getTasks(), [$test_task]);
+        }
+
+        function testGetTasks()
+        {
+            //Arrange
+            $name = "Work stuff";
+            $test_category = new Category($name);
+            $test_category->save();
+
+            $description = "File reports";
+            $date = "Christmas";
+            $test_task = new Task($description, $date);
+            $test_task->save();
+
+            $description2 = "Wash the dog";
+            $date2 = "July 4";
+            $test_task2 = new Task($description2, $date2);
+            $test_task2->save();
+
+            //Act
+            $test_category->addTask($test_task);
+            $test_category->addTask($test_task2);
+
+            //Assert
+            $this->assertEquals($test_category->getTasks(), [$test_task, $test_task2]);
+        }
     }
 
 ?>
