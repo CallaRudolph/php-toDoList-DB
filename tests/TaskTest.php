@@ -206,21 +206,21 @@
         function testDelete()
         {
             //Arrange
+            $name = "Work stuff";
+            $test_category = new Category($name);
+            $test_category->save();
+
             $description = "Wash the dog";
             $date = "July 4";
             $test_task = new Task($description, $date);
             $test_task->save();
 
-            $description_2 = "Water the lawn";
-            $date_2 = "Christmas";
-            $test_task_2 = new Task($description_2, $date_2);
-            $test_task_2->save();
-
             //Act
+            $test_task->addCategory($test_category);
             $test_task->delete();
 
             //Assert
-            $this->assertEquals([$test_task_2], Task::getAll());
+            $this->assertEquals([], $test_category->getTasks());
         }
 
         function testAddCategory()
@@ -264,7 +264,6 @@
 
             //Assert
             $this->assertEquals($test_task->getCategories(), [$test_category, $test_category2]);
-
         }
     }
 ?>

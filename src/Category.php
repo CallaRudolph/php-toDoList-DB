@@ -50,10 +50,14 @@
         function delete()
         {
             $executed = $GLOBALS['DB']->exec("DELETE FROM categories WHERE id = {$this->getId()};");
-            if ($executed) {
-                return true;
-            } else {
+            if (!$executed) {
                 return false;
+            }
+            $GLOBALS['DB']->exec("DELETE FROM categories_tasks WHERE category_id = {$this->getId()};");
+            if (!$executed) {
+                return false;
+            } else {
+                return true;
             }
         }
 

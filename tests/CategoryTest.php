@@ -93,22 +93,24 @@
             $this->assertEquals("Home stuff", $test_category->getName());
         }
 
-        function testDeleteCategory()
+        function testDelete()
         {
             //Arrange
             $name = "Work stuff";
             $test_category = new Category($name);
             $test_category->save();
 
-            $name2 = "Home stuff";
-            $test_category2 = new Category($name2);
-            $test_category2->save();
+            $description = "File reports";
+            $date = "Christmas";
+            $test_task = new Task($description, $date);
+            $test_task->save();
 
             //Act
+            $test_category->addTask($test_task);
             $test_category->delete();
 
             //Assert
-            $this->assertEquals([$test_category2], Category::getAll());
+            $this->assertEquals([], $test_task->getCategories());
         }
 
         function testGetAll()
