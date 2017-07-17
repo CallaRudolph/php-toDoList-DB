@@ -50,6 +50,35 @@
             $this->assertEquals("Drink coffee.", $result);
         }
 
+        function testGetDate()
+        {
+            //Arrange
+            $description = "Do dishes.";
+            $date = "July 4";
+            $test_task = new Task($description, $date);
+
+            //Act
+            $result = $test_task->getDate();
+
+            //Assert
+            $this->assertEquals($date, $result);
+        }
+
+        function testSetDate()
+        {
+            //Arrange
+            $description = "Do dishes.";
+            $date = "July 4";
+            $test_task = new Task($description, $date);
+
+            //Act
+            $test_task->setDate("December 25");
+            $result = $test_task->getDate();
+
+            //Assert
+            $this->assertEquals("December 25", $result);
+        }
+
         function testGetID()
         {
             //Arrange
@@ -155,6 +184,23 @@
 
             //Assert
             $this->assertEquals("Clean the dog", $test_task->getDescription());
+        }
+
+        function testUpdateDate()
+        {
+            //Arrange
+            $description = "Wash the dog";
+            $date = "July 4";
+            $test_task = new Task($description, $date);
+            $test_task->save();
+
+            $new_date = "Christmas";
+
+            //Act
+            $test_task->updateDate($new_date);
+
+            //Assert
+            $this->assertEquals("Christmas", $test_task->getDate());
         }
 
         function testDelete()

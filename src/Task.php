@@ -95,6 +95,17 @@
             }
         }
 
+        function updateDate($new_date)
+        {
+            $executed = $GLOBALS['DB']->exec("UPDATE tasks SET due_date = '{$new_date}' WHERE id = {$this->getID()};");
+            if ($executed) {
+                $this->setDate($new_date);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         function delete()
         {
             $GLOBALS['DB']->exec("DELETE FROM tasks WHERE id = {$this->getID()};");
