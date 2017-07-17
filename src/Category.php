@@ -27,13 +27,33 @@
 
         function save()
         {
-
             $executed = $GLOBALS['DB']->exec("INSERT INTO categories (name) VALUES ('{$this->getName()}')");
             if ($executed) {
                  $this->id= $GLOBALS['DB']->lastInsertId();
                  return true;
             } else {
                  return false;
+            }
+        }
+
+        function update($new_name)
+        {
+            $executed = $GLOBALS['DB']->exec("UPDATE categories SET name = '{$new_name}' WHERE id = {$this->getId()};");
+            if ($executed) {
+               $this->setName($new_name);
+               return true;
+            } else {
+               return false;
+            }
+        }
+
+        function delete()
+        {
+            $executed = $GLOBALS['DB']->exec("DELETE FROM categories WHERE id = {$this->getId()};");
+            if ($executed) {
+                return true;
+            } else {
+                return false;
             }
         }
 
@@ -52,7 +72,12 @@
 
         static function deleteAll()
         {
-          $GLOBALS['DB']->exec("DELETE FROM categories;");
+            $executed = $GLOBALS['DB']->exec("DELETE FROM categories;");
+            if ($executed) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         static function find($search_id)
@@ -69,46 +94,6 @@
                 }
             }
             return $found_category;
-        }
-
-        function getTasks()
-        {
-            $tasks = array();
-            $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks WHERE category_id = {$this->getId()};");
-            foreach($returned_tasks as $task) {
-                $description = $task['description'];
-                $task_date = $task['due_date'];
-                $category_id = $task['category_id'];
-                $task_id = $task['id'];
-                $new_task = new Task($description, $task_date, $category_id, $task_id);
-                array_push($tasks, $new_task);
-            }
-            return $tasks;
-        }
-
-        function update($new_name)
-        {
-            $executed = $GLOBALS['DB']->exec("UPDATE categories SET name = '{$new_name}' WHERE id = {$this->getId()};");
-            if ($executed) {
-               $this->setName($new_name);
-               return true;
-            } else {
-               return false;
-            }
-        }
-
-        function delete()
-        {
-            $executed = $GLOBALS['DB']->exec("DELETE FROM categories WHERE id = {$this->getId()};");
-            if (!$executed) {
-               return false;
-            }
-            $executed = $GLOBALS['DB']->exec("DELETE FROM tasks WHERE category_id = {$this->getId()};");
-             if (!$executed) {
-                 return false;
-             } else {
-                 return true;
-             }
         }
     }
 ?>
