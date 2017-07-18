@@ -59,16 +59,14 @@
         return $app['twig']->render('task.html.twig', array('task' => $task, 'categories' => $task->getCategories(), 'all_categories' => Category::getAll()));
     });
 
-    // $app->patch("/tasks/{id}/update_completed", function($id) use ($app) {
-    //     $completed = $_POST['completed'];
-    //     $task = Task::find($id);
-    //     $task->updateCompleted($completed);
-    //     return $app['twig']->render('tasks.html.twig', array('tasks' => Task::getAll()));
-    // });
+    $app->patch("/tasks/{id}/update_completed", function($id) use ($app) {
+        $completed = $_POST['completed'];
+        $task = Task::find($id);
+        $task->updateCompleted($completed);
+        return $app['twig']->render('tasks.html.twig', array('tasks' => Task::getAll()));
+    });
 
     $app->get("/categories", function() use ($app) {
-        $category = new Category($_POST['name']);
-        $category->save();
         return $app['twig']->render('categories.html.twig', array('categories' => Category::getAll()));
     });
 

@@ -14,6 +14,18 @@
       <button type="submit">Update</button>
     </form>
 
+    <form action="/tasks/{{ task.getId }}/update_completed" method="post">
+        <input name="_method" type="hidden" value="patch">  <!--tells server to treat POST request as PATCH request-->
+        <!-- <select name="completed">
+        <option value=0>No</option>
+        <option value=1>Yes</option>
+        </select> -->
+        <input type="checkbox" name="completed" value="1">
+        <label for="completed"> Completed?</label>
+
+        <button type="submit">Update</button>
+    </form>
+
     <form action="/tasks/{{ task.getId }}" method="post">
       <input name="_method" type="hidden" value="delete">
 
