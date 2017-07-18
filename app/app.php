@@ -55,7 +55,14 @@
     $app->patch("/tasks/{id}/update_description", function($id) use ($app) {
         $description = $_POST['description'];
         $task = Task::find($id);
-        $task->updateDescription($description);
+        $task->update($description);
+        return $app['twig']->render('task.html.twig', array('task' => $task, 'categories' => $task->getCategories(), 'all_categories' => Category::getAll()));
+    });
+
+    $app->patch("/tasks/{id}/update_date", function($id) use ($app) {
+        $date = $_POST['date'];
+        $task = Task::find($id);
+        $task->updateDate($date);
         return $app['twig']->render('task.html.twig', array('task' => $task, 'categories' => $task->getCategories(), 'all_categories' => Category::getAll()));
     });
 

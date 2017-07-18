@@ -14,8 +14,14 @@
                     {% for task in tasks %}
                         {% if task.getCompleted == true %}
                             <li><del><a href="/tasks/{{ task.getId }}">{{ task.getDescription }}</a></del></li>
+                            <ul>
+                                <li>Due: {{ task.getDate }}</li>
+                            </ul>
                         {% else %}
                             <li><a href="/tasks/{{ task.getId }}">{{ task.getDescription }}</a></li>
+                            <ul>
+                                <li>Due: {{ task.getDate }}</li>
+                            </ul>
                         {% endif %}
                     {% endfor %}
                 </ul>
