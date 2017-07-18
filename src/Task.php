@@ -3,12 +3,14 @@
     {
         private $description;
         private $date;
+        private $completed;
         private $id;
 
-        function __construct($description, $date, $id = null)
+        function __construct($description, $date, $completed = false, $id = null)
         {
             $this->description = $description;
             $this->date = $date;
+            $this->completed = $completed;
             $this->id = $id;
         }
 
@@ -32,6 +34,16 @@
             return $this->date;
         }
 
+        function setCompleted($new_completed)
+        {
+            $this->completed = (bool) $new_completed;
+        }
+
+        function getCompleted()
+        {
+            return $this->completed;
+        }
+
         function getId()
         {
             return $this->id;
@@ -39,7 +51,7 @@
 
         function save()
         {
-            $executed = $GLOBALS['DB']->exec("INSERT INTO tasks (description, due_date) VALUES ('{$this->getDescription()}', '{$this->getDate()}');");
+            $executed = $GLOBALS['DB']->exec("INSERT INTO tasks (description, due_date, completed) VALUES ('{$this->getDescription()}', '{$this->getDate()}', '{$this->getCompleted()}');");
             if ($executed) {
                 $this->id = $GLOBALS['DB']->lastInsertId();
                 return true;
@@ -55,8 +67,9 @@
             foreach($returned_tasks as $task) {
                 $task_description = $task['description'];
                 $task_date = $task['due_date'];
+                $task_completed = $task['completed'];
                 $task_id = $task['id'];
-                $new_task = new Task($task_description, $task_date, $task_id);
+                $new_task = new Task($task_description, $task_date, $task_completed, $task_id);
                 array_push($tasks, $new_task);
             }
             return $tasks;
@@ -76,9 +89,10 @@
             foreach ($returned_tasks as $task) {
                 $task_description = $task['description'];
                 $task_date = $task['due_date'];
+                $task_completed = $task['completed'];
                 $task_id = $task['id'];
                 if ($task_id == $search_id) {
-                    $found_task = new Task($task_description, $task_date, $task_id);
+                    $found_task = new Task($task_description, $task_date, $task_completed, $task_id);
                 }
             }
             return $found_task;
@@ -100,6 +114,18 @@
             $executed = $GLOBALS['DB']->exec("UPDATE tasks SET due_date = '{$new_date}' WHERE id = {$this->getId()};");
             if ($executed) {
                 $this->setDate($new_date);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+        function updateCompleted($new_completed)
+        {
+            $executed = $GLOBALS['DB']->exec("UPDATE tasks SET completed = '{$new_completed}' WHERE id = {$this->getId()};");
+            if ($executed) {
+                $this->setCompleted($new_completed);
                 return true;
             } else {
                 return false;

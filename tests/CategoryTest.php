@@ -102,7 +102,8 @@
 
             $description = "File reports";
             $date = "Christmas";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             //Act
@@ -174,7 +175,8 @@
 
             $description = "File reports";
             $date = "Christmas";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             //Act
@@ -193,12 +195,14 @@
 
             $description = "File reports";
             $date = "Christmas";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             $description2 = "Wash the dog";
             $date2 = "July 4";
-            $test_task2 = new Task($description2, $date2);
+            $completed2 = true;
+            $test_task2 = new Task($description2, $date2, $completed2);
             $test_task2->save();
 
             //Act

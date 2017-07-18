@@ -26,7 +26,8 @@
             //Arrange
             $description = "Do dishes.";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
 
             //Act
             $result = $test_task->getDescription();
@@ -40,7 +41,8 @@
             //Arrange
             $description = "Do dishes.";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
 
             //Act
             $test_task->setDescription("Drink coffee.");
@@ -55,7 +57,8 @@
             //Arrange
             $description = "Do dishes.";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
 
             //Act
             $result = $test_task->getDate();
@@ -69,7 +72,8 @@
             //Arrange
             $description = "Do dishes.";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
 
             //Act
             $test_task->setDate("December 25");
@@ -79,12 +83,44 @@
             $this->assertEquals("December 25", $result);
         }
 
+        function testGetCompleted()
+        {
+            // Arrange
+            $description = "Do dishes.";
+            $date = "July 4";
+            $completed = false;
+            $test_task = new Task($description, $date, $completed);
+
+            // Act
+            $result = $test_task->getCompleted();
+
+            // Assert
+            $this->assertEquals($completed, $result);
+        }
+
+        function testSetCompleted()
+        {
+            // Arrange
+            $description = "Do dishes.";
+            $date = "July 4";
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
+
+            // Act
+            $test_task->setCompleted(false);
+            $result = $test_task->getCompleted();
+
+            // Assert
+            $this->assertEquals(false, $result);
+        }
+
         function testGetID()
         {
             //Arrange
             $description = "Watch the new Thor movie";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             //Acts
@@ -99,7 +135,8 @@
             //Arrange
             $description = "Wash the dog";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
 
             //Act
             $executed = $test_task->save();
@@ -113,12 +150,14 @@
             //Arrange
             $description = "Wash the dog";
             $date = "July 5";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             $description_2 = "Water the lawn";
             $date_2 = "Christmas";
-            $test_task_2 = new Task($description_2, $date_2);
+            $completed_2 = 0;
+            $test_task_2 = new Task($description_2, $date_2, $completed_2);
             $test_task_2->save();
 
             //Act
@@ -133,12 +172,14 @@
             //Arrange
             $description = "Wash the dog";
             $date = "July 5";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             $description_2 = "Water the lawn";
             $date_2 = "Christmas";
-            $test_task_2 = new Task($description_2, $date_2);
+            $completed_2 = false;
+            $test_task_2 = new Task($description_2, $date_2, $completed_2);
             $test_task_2->save();
 
             //Act
@@ -154,12 +195,14 @@
             //Arrange
             $description = "Wash the dog";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             $description_2 = "Water the lawn";
             $date_2 = "Christmas";
-            $test_task_2 = new Task($description_2, $date_2);
+            $completed_2 = false;
+            $test_task_2 = new Task($description_2, $date_2, $completed_2);
             $test_task_2->save();
 
             //Act
@@ -174,7 +217,8 @@
             //Arrange
             $description = "Wash the dog";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             $new_description = "Clean the dog";
@@ -191,7 +235,8 @@
             //Arrange
             $description = "Wash the dog";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             $new_date = "Christmas";
@@ -203,6 +248,23 @@
             $this->assertEquals("Christmas", $test_task->getDate());
         }
 
+        function testUpdateCompleted()
+        {
+            // Arrange
+            $description = "Wash the dog";
+            $date = "July 4";
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
+            $test_task->save();
+            $new_completed = false;
+
+            // Act
+            $test_task->updateCompleted($new_completed);
+
+            // Assert
+            $this->assertEquals(false, $test_task->getCompleted());
+     }
+
         function testDelete()
         {
             //Arrange
@@ -212,7 +274,8 @@
 
             $description = "Wash the dog";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             //Act
@@ -232,7 +295,8 @@
 
             $description = "Wash the dog";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             //Act
@@ -255,7 +319,8 @@
 
             $description = "Wash the dog";
             $date = "July 4";
-            $test_task = new Task($description, $date);
+            $completed = true;
+            $test_task = new Task($description, $date, $completed);
             $test_task->save();
 
             //Act
