@@ -62,7 +62,7 @@
 
         static function getAll()
         {
-            $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks ORDER BY due_date ASC;");
+            $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks;");
             $tasks = array();
             foreach($returned_tasks as $task) {
                 $task_description = $task['description'];
@@ -158,21 +158,34 @@
 
         function getCategories()
         {
-            $query = $GLOBALS['DB']->query("SELECT category_id FROM categories_tasks WHERE task_id = {$this->getId()};");
-            $category_ids = $query->fetchAll(PDO::FETCH_ASSOC);
-
+            $returned_categories = $GLOBALS['DB']->query("SELECT categories.* FROM tasks JOIN categories_tasks ON (categories_tasks.task_id = tasks.id) JOIN categories ON (categories.id = categories_tasks.category_id) WHERE tasks.id = {$this->getId()};");
             $categories = array();
-            foreach($category_ids as $id) {
-                $category_id = $id['category_id'];
-                $result = $GLOBALS['DB']->query("SELECT * FROM categories WHERE id = {$category_id};");
-                $returned_category = $result->fetchAll(PDO::FETCH_ASSOC);
-
-                $name = $returned_category[0]['name'];
-                $id = $returned_category[0]['id'];
+            foreach($returned_categories as $category) {
+                $name = $category['name'];
+                $id = $category['id'];
                 $new_category = new Category($name, $id);
                 array_push($categories, $new_category);
             }
             return $categories;
         }
+        //
+        // function getCategories()
+        // {
+        //     $query = $GLOBALS['DB']->query("SELECT category_id FROM categories_tasks WHERE task_id = {$this->getId()};");
+        //     $category_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+        //
+        //     $categories = array();
+        //     foreach($category_ids as $id) {
+        //         $category_id = $id['category_id'];
+        //         $result = $GLOBALS['DB']->query("SELECT * FROM categories WHERE id = {$category_id};");
+        //         $returned_category = $result->fetchAll(PDO::FETCH_ASSOC);
+        //
+        //         $name = $returned_category[0]['name'];
+        //         $id = $returned_category[0]['id'];
+        //         $new_category = new Category($name, $id);
+        //         array_push($categories, $new_category);
+        //     }
+        //     return $categories;
+        // }
     }
  ?>

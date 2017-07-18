@@ -63,7 +63,7 @@
 
         static function getAll()
         {
-            $returned_categories = $GLOBALS['DB']->query("SELECT * FROM categories ORDER BY name ASC;");
+            $returned_categories = $GLOBALS['DB']->query("SELECT * FROM categories;");
             $categories = array();
             foreach($returned_categories as $category) {
                 $name = $category['name'];
@@ -112,23 +112,38 @@
 
         function getTasks()
         {
-            $query = $GLOBALS['DB']->query("SELECT task_id FROM categories_tasks WHERE category_id = {$this->getId()};");
-            $task_ids = $query->fetchAll(PDO::FETCH_ASSOC);
-
+            $returned_tasks = $GLOBALS['DB']->query("SELECT tasks.* FROM categories JOIN categories_tasks ON (categories_tasks.category_id = categories.id) JOIN tasks ON (tasks.id = categories_tasks.task_id) WHERE categories.id = {$this->getId()};");
             $tasks = array();
-            foreach($task_ids as $id) {
-                $task_id = $id['task_id'];
-                $result = $GLOBALS['DB']->query("SELECT * FROM tasks WHERE id = {$task_id};");
-                $returned_task = $result->fetchAll(PDO::FETCH_ASSOC);
-
-                $description = $returned_task[0]['description'];
-                $date = $returned_task[0]['due_date'];
-                $completed = $returned_task[0]['completed'];
-                $id = $returned_task[0]['id'];
+            foreach($returned_tasks as $task) {
+                $description = $task['description'];
+                $date = $task['due_date'];
+                $completed = $task['completed'];
+                $id = $task['id'];
                 $new_task = new Task($description, $date, $completed, $id);
                 array_push($tasks, $new_task);
             }
             return $tasks;
         }
+
+        // function getTasks()
+        // {
+        //     $query = $GLOBALS['DB']->query("SELECT task_id FROM categories_tasks WHERE category_id = {$this->getId()};");
+        //     $task_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+        //
+        //     $tasks = array();
+        //     foreach($task_ids as $id) {
+        //         $task_id = $id['task_id'];
+        //         $result = $GLOBALS['DB']->query("SELECT * FROM tasks WHERE id = {$task_id};");
+        //         $returned_task = $result->fetchAll(PDO::FETCH_ASSOC);
+        //
+        //         $description = $returned_task[0]['description'];
+        //         $date = $returned_task[0]['due_date'];
+        //         $completed = $returned_task[0]['completed'];
+        //         $id = $returned_task[0]['id'];
+        //         $new_task = new Task($description, $date, $completed, $id);
+        //         array_push($tasks, $new_task);
+        //     }
+        //     return $tasks;
+        // }
     }
 ?>
