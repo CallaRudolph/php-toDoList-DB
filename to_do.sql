@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jul 17, 2017 at 05:39 AM
+-- Generation Time: Jul 18, 2017 at 05:11 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -38,9 +38,10 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`) VALUES
-(5, 'Home'),
-(6, 'Work'),
-(7, 'School');
+(24, 'HOME'),
+(25, 'sleep'),
+(26, 'apples'),
+(27, 'apples');
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,13 @@ CREATE TABLE `categories_tasks` (
 INSERT INTO `categories_tasks` (`id`, `category_id`, `task_id`) VALUES
 (1, 4, 9),
 (2, 5, 12),
-(3, 6, 10);
+(3, 6, 10),
+(4, 11, 13),
+(5, 20, 14),
+(6, 19, 15),
+(7, 24, 14),
+(8, 24, 13),
+(9, 24, 15);
 
 -- --------------------------------------------------------
 
@@ -72,17 +79,18 @@ INSERT INTO `categories_tasks` (`id`, `category_id`, `task_id`) VALUES
 CREATE TABLE `tasks` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `description` varchar(255) DEFAULT NULL,
-  `due_date` text
+  `due_date` text,
+  `completed` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `tasks`
 --
 
-INSERT INTO `tasks` (`id`, `description`, `due_date`) VALUES
-(10, 'Study', ''),
-(11, 'Eat food', 'tonight'),
-(12, 'Sleep', 'tonight');
+INSERT INTO `tasks` (`id`, `description`, `due_date`, `completed`) VALUES
+(13, 'WORK', '7/7', 1),
+(14, 'sleep', 'now', 1),
+(15, 'eat', 'forever', 0);
 
 --
 -- Indexes for dumped tables
@@ -117,17 +125,17 @@ ALTER TABLE `tasks`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `categories_tasks`
 --
 ALTER TABLE `categories_tasks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
